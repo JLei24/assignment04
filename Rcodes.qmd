@@ -60,13 +60,14 @@ ggplot(aes(x = country, y = finalWorth, color = category, size = finalWorth, alp
   geom_text(aes(label = personName), size = 2) + 
   labs(title = "Billionaires by Country and Sector",
        x = "Country",
-       y = "Final Worth",
+       y = "Final Worth(million dollars)",
        color = "Sector",
-       size = "Final Worth",
+       size = "Final Worth(million dollars)",
        caption = "source:Billionaires Statistics Dataset"
        ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
   
 
 ```
@@ -92,8 +93,8 @@ summary_data <- data %>%
 ggplot(summary_data, aes(x = gdp_percap, y = num_billionaires)) +
   geom_line() +
   geom_smooth (method = "lm", se = TRUE) +
-  labs(title = "Number of Billionaires vs. GDP per Capita", 
-       x = "GDP per Capita", 
+  labs(title = "Number of Billionaires vs. GDP per Capita(dollars)", 
+       x = "GDP per Capita(dollars)", 
        y = "Number of Billionaires",
        caption = "source:Billionaires Statistics Dataset"
        )+
@@ -103,3 +104,26 @@ ggplot(summary_data, aes(x = gdp_percap, y = num_billionaires)) +
 ```
 
 The third graph is more of a in-depth analysis on the problem discovred from graph. Graph 3 is trying to see if there is correlation between income and number of billionaires. If they are highly related, number of billionaires might be less a concern and it might increase with incrase in national average income. However, although the graph shows that there might be a linear correlation, there are numbers of abnormal value.(GDP per capita is low while numbers of billionaires are extremely high)
+
+### Graph 4 
+
+()
+
+```{r}
+data %>%
+ drop_na(total_tax_rate_country) %>%
+  filter(total_tax_rate_country < 100) %>%
+  ggplot(aes(x = total_tax_rate_country)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) + 
+  labs(
+    title = "Distribution of Tax Rates among Billionaires",
+    x = "Tax Rate",
+    y = "Number of Billionaires",
+    caption = "source: Billionaires Statistics Dataset"
+  ) +
+   scale_x_continuous(limits = c(0,75), 
+                     breaks = seq(from = 0, to = 75, by = 5))+
+  theme_minimal()
+```
+
+Graph 4 shows how tax rate might impact the creation of billionaires. On the data set, Argentina has a total tax rate of 110 which intuitively looks suspicious, therefore it has been excluded. From this graph, it seems that there is no pattern showing high tax rate or low tax rate would make a difference on number of billionaires. It might provide some justifications for higher tax rate on the rich. However, it is a very premature hypothesis which needs to be proven with much deeper analysis.
