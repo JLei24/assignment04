@@ -46,3 +46,28 @@ data %>%
 The first graph show the 5 countries with most billionaires are United States, China, India, Germany, and United Kingdom. This raises immediate concerns on income distribution as China and India are developing countries with far less GDP per capita comparing to the other three countries.
 
 ### 
+
+### 2) Graph 2
+
+```{r}
+top_billionaires <- data %>%
+  arrange(desc(finalWorth)) %>%
+  head(20)
+
+  top_billionaires %>%
+ggplot(aes(x = country, y = finalWorth, color = category)) +
+  geom_point(size = 2, alpha = 0.7) +            
+  geom_text(aes(label = personName), size = 2) + 
+  labs(title = "Billionaires by Country and Sector",
+       x = "Country",
+       y = "Final Worth",
+       color = "Sector",
+       caption = "source:Billionaires Statistics Dataset"
+       ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+
+```
+
+The Second graph shows the top 20 billionaires' country, sector, and final worth. This graph shows that Fashion & Retail and technology are the two sectors for top billionaires across all countries concentrated in. It might suggest either those sectors are earning abnormal profit by abusing monopoly power.
