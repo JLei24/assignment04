@@ -4,6 +4,45 @@ format: html
 author: J Lei
 ---
 
-The dataset used in this project is from
+The dataset used in this project is from Kaggle by a user named NIDULA ELGIRIYEWITHANA, the dataset is named [Billionaires Statistics Dataset](https://www.kaggle.com/datasets/nelgiriyewithana/billionaires-statistics-dataset) . This data records the statues of billionaires in the world and can help us to explore the topic of wealth inequality and income inequality.
 
-\[The World Bank Poverty and Inequality Platform\] (<https://pip.worldbank.org/poverty-calculator>)
+# Setup
+
+### 1) Hide unnecessary print
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+### 2) Set data
+
+```{r}
+library(tidyverse)
+data <- read_csv("data/Billionaires Statistics Dataset.csv")
+  
+  
+```
+
+# Graphs
+
+### 1) Graph 1
+
+```{r}
+data %>%
+  group_by(country) %>%
+  summarise(billionaire_count = n()) %>%
+  arrange(desc(billionaire_count)) %>%
+  slice_head(n = 5) %>%
+  ggplot(aes(x = reorder(country, -billionaire_count), y = billionaire_count, fill = country)) +
+  geom_col() +
+  labs(title = "Top 5 Countries with the Most Billionaires",
+       x = "Country",
+       y = "Number of Billionaires",
+       caption = "source:Billionaires Statistics Dataset") +
+  theme_minimal()
+
+```
+
+The first graph show the 5 countries with most billionaires are United States, China, India, Germany, and United Kingdom. This raises immediate concerns on income distribution as China and India are developing countries with far less GDP per capita comparing to the other three countries.
+
+### 
