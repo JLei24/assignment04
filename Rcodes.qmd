@@ -55,13 +55,14 @@ top_billionaires <- data %>%
   head(20)
 
   top_billionaires %>%
-ggplot(aes(x = country, y = finalWorth, color = category)) +
-  geom_point(size = 2, alpha = 0.7) +            
+ggplot(aes(x = country, y = finalWorth, color = category, size = finalWorth, alpha = 0.7)) +
+  geom_point() +            
   geom_text(aes(label = personName), size = 2) + 
   labs(title = "Billionaires by Country and Sector",
        x = "Country",
        y = "Final Worth",
        color = "Sector",
+       size = "Final Worth",
        caption = "source:Billionaires Statistics Dataset"
        ) +
   theme_minimal() +
@@ -71,3 +72,34 @@ ggplot(aes(x = country, y = finalWorth, color = category)) +
 ```
 
 The Second graph shows the top 20 billionaires' country, sector, and final worth. This graph shows that Fashion & Retail and technology are the two sectors for top billionaires across all countries concentrated in. It might suggest either those sectors are earning abnormal profit by abusing monopoly power.
+
+### Graph 3 
+
+```{r message=FALSE}
+
+library(ggthemes)
+
+data <- data %>%
+  mutate(gdp_numeric = as.numeric(gsub("[$,]", "", gdp_country))) %>%
+  mutate(gdp_percap = gdp_numeric / population_country)
+
+
+summary_data <- data %>%
+  group_by(gdp_percap) %>%
+  summarize(num_billionaires = n()) %>%
+  drop_na(gdp_percap)
+
+ggplot(summary_data, aes(x = gdp_percap, y = num_billionaires)) +
+  geom_line() +
+  geom_smooth (method = "lm", se = TRUE) +
+  labs(title = "Number of Billionaires vs. GDP per Capita", 
+       x = "GDP per Capita", 
+       y = "Number of Billionaires",
+       caption = "source:Billionaires Statistics Dataset"
+       )+
+  scale_x_continuous(limits = c(0,185000), 
+                     breaks = seq(from = 0, to = 200000, by = 20000))+
+  theme_economist()
+```
+
+The third graph is more of a in-depth analysis on the problem discovred from graph. Graph 3 is trying to see if there is correlation between income and number of billionaires. If they are highly related, number of billionaires might be less a concern and it might increase with incrase in national average income. However, although the graph shows that there might be a linear correlation, there are numbers of abnormal value.(GDP per capita is low while numbers of billionaires are extremely high)
