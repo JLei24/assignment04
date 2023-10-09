@@ -1,0 +1,9 @@
+---
+title: "Assignment04"
+format: html
+author: J Lei
+---
+
+The dataset used in this project is from
+
+\[The World Bank Poverty and Inequality Platform\] (<https://pip.worldbank.org/poverty-calculator>)
